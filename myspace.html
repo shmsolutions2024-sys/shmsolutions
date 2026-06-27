@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>পাবলিক সুরক্ষিত নোটপ্যাড</title>
+    <title>My Blog</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,23 +34,15 @@
             font-size: 14px;
             margin-bottom: 20px;
         }
-        textarea {
-            width: 100%;
+        /* এডিটরের সাইজ নির্ধারণ */
+        #editor-container {
             height: 400px;
-            padding: 15px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 16px;
-            resize: vertical;
-            box-sizing: border-box;
-            font-family: inherit;
             background-color: #fcfcfc;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
         }
-        textarea:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-        textarea:disabled {
+        /* লক থাকা অবস্থায় এডিটরের ব্যাকগ্রাউন্ড গ্রে করা */
+        .ql-disabled .ql-editor {
             background-color: #f9f9f9;
             color: #555;
             cursor: not-allowed;
@@ -56,7 +51,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 10px;
+            margin-top: 15px;
         }
         .status {
             font-size: 12px;
@@ -70,6 +65,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 13px;
+            font-weight: bold;
         }
         button:hover {
             background-color: #0056b3;
@@ -79,10 +75,10 @@
 <body>
 
 <div class="container">
-    <h1>পাবলিক প্রটেক্টেড নোটপ্যাড</h1>
-    <p>যে কেউ এই পেজটি দেখতে পাবে। এডিট করার জন্য "Unlock to Edit" বাটনে ক্লিক করুন।</p>
+    <h1>My Space</h1>
+    <p>সাহিত্যের পাতায় হারিয়ে যাওয়া আর প্রযুক্তির নতুন দিগন্ত খোঁজা - এই দুইয়ের মাঝেই আমার জগৎ। 📚</p>
     
-    <textarea id="notepad" placeholder="ক্লাউড ডাটা লোড হচ্ছে..." disabled></textarea>
+    <div id="editor-container"></div>
     
     <div class="controls">
         <button id="authBtn" onclick="toggleEdit()">Unlock to Edit</button>
@@ -90,16 +86,17 @@
     </div>
 </div>
 
-<!-- Firebase SDKs (Compat Version) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
 <script>
-    // আপনার আসল Firebase কনফিগারেশন এখানে সেট করা হয়েছে
+    // আপনার আসল Firebase কনফিগারেশন
     const firebaseConfig = {
         apiKey: "AIzaSyDiEaU3tA4Mjpuh75DZuvxqrUJ-hYKSn_w",
         authDomain: "sadikul-21e04.firebaseapp.com",
-        databaseURL: "https://sadikul-21e04-default-rtdb.firebaseio.com", // databaseURL যোগ করা হয়েছে
+        databaseURL: "https://sadikul-21e04-default-rtdb.firebaseio.com",
         projectId: "sadikul-21e04",
         storageBucket: "sadikul-21e04.firebasestorage.app",
         messagingSenderId: "117715005313",
@@ -110,43 +107,61 @@
     // Firebase ইনিশিয়ালাইজ করা
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    const noteRef = database.ref('public_note');
+    const noteRef = database.ref('public_html_note'); // HTML ফরম্যাট সেভ করার জন্য নতুন নোড
 
-    const notepad = document.getElementById('notepad');
     const status = document.getElementById('status');
     const authBtn = document.getElementById('authBtn');
     
     let isAuthorized = false;
 
-    // ১. ক্লাউড থেকে রিয়েল-টাইম লেখা নিয়ে আসা
+    // Quill Editor কনফিগার করা (এখানে Bold, Italic, Underline এবং Link অপশন দেওয়া হয়েছে)
+    const quill = new Quill('#editor-container', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic', 'underline'], // টেক্সট ফরম্যাটিং বোতাম
+                ['link'],                       // লিংক যুক্ত করার বোতাম
+                [{ 'clean': 'Clear' }]          // ফরম্যাট মুছে ফেলার বোতাম
+            ]
+        },
+        placeholder: 'ক্লাউড ডাটা লোড হচ্ছে...',
+        theme: 'snow',
+        readOnly: true // শুরুতে লক থাকবে
+    });
+
+    // ১. ক্লাউড থেকে রিয়েল-টাইম HTML ডাটা নিয়ে আসা
     noteRef.on('value', (snapshot) => {
         if (!isAuthorized) {
-            notepad.value = snapshot.val() || "";
+            const htmlContent = snapshot.val() || "";
+            quill.clipboard.dangerouslyPasteHTML(htmlContent); // HTML ফরম্যাট সহ পেস্ট করা
             status.textContent = "Viewing Mode (Read-Only)";
         }
     });
 
-    // ২. পাসওয়ার্ড ভেরিফিকেশন এবং লক করার লজিক
+    // ২. পাসওয়ার্ড ভেরিফিকেশন এবং লক/আনলক লজিক
     function toggleEdit() {
         if (!isAuthorized) {
             const password = prompt("এডিট করার জন্য পাসওয়ার্ড দিন:");
             
             if (password === "365365") {
                 isAuthorized = true;
-                notepad.disabled = false; 
+                quill.enable(true); // এডিটর আনলক করা
                 authBtn.textContent = "Lock Editing";
                 authBtn.style.backgroundColor = "#dc3545"; 
                 status.textContent = "Unlocked. পরিবর্তনগুলো ক্লাউডে সেভ হচ্ছে।";
-                notepad.focus();
+                quill.focus();
             } else if (password !== null) {
                 alert("ভুল পাসওয়ার্ড! এক্সেস রিফিউজড।");
             }
         } else {
             status.textContent = "সর্বশেষ পরিবর্তনগুলো সেভ হচ্ছে...";
-            noteRef.set(notepad.value)
+            
+            // এডিটরের ভেতরের HTML কোডটি ক্লাউডে সেভ করা হচ্ছে
+            const currentHTML = quill.getSemanticHTML(); 
+            
+            noteRef.set(currentHTML)
                 .then(() => {
                     isAuthorized = false;
-                    notepad.disabled = true;
+                    quill.enable(false); // এডিটর লক করা
                     authBtn.textContent = "Unlock to Edit";
                     authBtn.style.backgroundColor = "#007bff";
                     status.textContent = "Saved & Locked! (Read-Only Mode)";
@@ -157,12 +172,14 @@
         }
     }
 
-    // ৩. টাইপ করার সাথে সাথে লাইভ সেভ করা
-    notepad.addEventListener('input', () => {
-        if (!isAuthorized) return;
+    // ৩. টাইপ অথবা ফরম্যাট করার সাথে সাথে লাইভ ক্লাউড সেভ
+    quill.on('text-change', (delta, oldDelta, source) => {
+        if (!isAuthorized || source !== 'user') return;
         
         status.textContent = "ক্লাউডে সেভ হচ্ছে...";
-        noteRef.set(notepad.value)
+        const currentHTML = quill.getSemanticHTML();
+        
+        noteRef.set(currentHTML)
             .then(() => {
                 status.textContent = "Saved!";
             })
