@@ -90,20 +90,21 @@
     </div>
 </div>
 
-<!-- Firebase SDKs -->
+<!-- Firebase SDKs (Compat Version) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
 <script>
-    // এখানে আপনার আসল Firebase কনফিগারেশন কোডটি বসাবেন
+    // আপনার আসল Firebase কনফিগারেশন এখানে সেট করা হয়েছে
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT_ID.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
+        apiKey: "AIzaSyDiEaU3tA4Mjpuh75DZuvxqrUJ-hYKSn_w",
+        authDomain: "sadikul-21e04.firebaseapp.com",
+        databaseURL: "https://sadikul-21e04-default-rtdb.firebaseio.com", // databaseURL যোগ করা হয়েছে
+        projectId: "sadikul-21e04",
+        storageBucket: "sadikul-21e04.firebasestorage.app",
+        messagingSenderId: "117715005313",
+        appId: "1:117715005313:web:340a3aa9b4366b817c4280",
+        measurementId: "G-Y7K47QQ800"
     };
 
     // Firebase ইনিশিয়ালাইজ করা
@@ -119,7 +120,6 @@
 
     // ১. ক্লাউড থেকে রিয়েল-টাইম লেখা নিয়ে আসা
     noteRef.on('value', (snapshot) => {
-        // সমাধান: আমি নিজে আনলকড থাকলে ক্লাউড থেকে কোনো ডাটা এসে স্ক্রিনের লেখাকে মুছতে পারবে না
         if (!isAuthorized) {
             notepad.value = snapshot.val() || "";
             status.textContent = "Viewing Mode (Read-Only)";
@@ -136,17 +136,15 @@
                 notepad.disabled = false; 
                 authBtn.textContent = "Lock Editing";
                 authBtn.style.backgroundColor = "#dc3545"; 
-                status.textContent = "unlocked. পরিবর্তনগুলো ক্লাউডে সেভ হচ্ছে।";
+                status.textContent = "Unlocked. পরিবর্তনগুলো ক্লাউডে সেভ হচ্ছে।";
                 notepad.focus();
             } else if (password !== null) {
                 alert("ভুল পাসওয়ার্ড! এক্সেস রিফিউজড।");
             }
         } else {
-            // সমাধান: লক করার ঠিক আগের মুহূর্তে স্ক্রিনে যা আছে তা নিশ্চিতভাবে ক্লাউডে সেভ করা
             status.textContent = "সর্বশেষ পরিবর্তনগুলো সেভ হচ্ছে...";
             noteRef.set(notepad.value)
                 .then(() => {
-                    // সফলভাবে সেভ হওয়ার পরেই কেবল এডিটর লক হবে
                     isAuthorized = false;
                     notepad.disabled = true;
                     authBtn.textContent = "Unlock to Edit";
