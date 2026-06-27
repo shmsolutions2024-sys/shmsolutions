@@ -13,12 +13,46 @@
     padding-bottom: 40px;
 }
 
+/* Floating Home Button Style */
+.floating-home-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.floating-home-btn i {
+    font-size: 16px;
+}
+
+.floating-home-btn:hover {
+    background: #004d40;
+    border-color: #00695c;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 77, 64, 0.4);
+}
+
 /* Header */
 .weblink-header {
     background: linear-gradient(135deg, #004d40, #00695c);
     color: white;
     text-align: center;
-    padding: 40px 20px;
+    padding: 50px 20px 40px; /* Top padding slightly increased for button breathing room */
     margin-bottom: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
@@ -84,10 +118,21 @@
 @media (max-width: 400px) {
     .link-grid { grid-template-columns: repeat(2, 1fr); }
     .btn-link { font-size: 13px; height: 70px; }
+    /* Mobile-specific adjustments for floating button */
+    .floating-home-btn { top: 10px; left: 10px; padding: 6px 12px; font-size: 12px; }
 }
 </style>
 
+<!-- FontAwesome CDN for Icons (If not already included in your Blogger template) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
 <div class="weblink-container">
+    
+    <!-- 1. ADDED FLOATING HOME BUTTON HERE -->
+    <a href="index.html" class="floating-home-btn">
+        <i class="fa-solid fa-house"></i> Home
+    </a>
+
     <div class="weblink-header">
         <h1>🔗 Useful Weblinks</h1>
         <p>ডিজিটাল প্রযুক্তি হোক সঙ্গী, সহজ হোক আগামীর পথ 🚀</p>
@@ -110,17 +155,17 @@
         <a href="https://podcast.adobe.com/en/enhance" target="_blank" class="btn-link a-enhance">Audio Enhance</a>
         <a href="https://cloudconvert.com/mp3-converter" target="_blank" class="btn-link mp3-conv">MP3 Converter</a>
         <a href="https://cloudconvert.com/" target="_blank" class="btn-link file-conv">File Converter</a>
-     	<a href="https://freeimage.host/" target="_blank" class="btn-link file-conv">Image Hosting</a>
-      	<a href="https://image.pi7.org/" target="_blank" class="btn-link h-raja">Img & PDF Compressor</a>
-         <a href="https://squoosh.app/" target="_blank" class="btn-link pdf-c">WebP</a>
-       <a href="https://freebanglaconverter.com/" target="_blank" class="btn-link v-clone2">Unicode to Bijay</a>
-      <a href="https://anyflip.com/homepage/znugq" target="_blank" class="btn-link v-clone1">PDF to Flip</a>
-      <a href="https://www.flipbookpdf.net/" target="_blank" class="btn-link b-rock">Flip Book</a>
-      <a href="https://archive.org/upload" target="_blank" class="btn-link a-enhance">Archive </a>
+        <a href="https://freeimage.host/" target="_blank" class="btn-link file-conv">Image Hosting</a>
+        <a href="https://image.pi7.org/" target="_blank" class="btn-link h-raja">Img & PDF Compressor</a>
+        <a href="https://squoosh.app/" target="_blank" class="btn-link pdf-c">WebP</a>
+        <a href="https://freebanglaconverter.com/" target="_blank" class="btn-link v-clone2">Unicode to Bijay</a>
+        <a href="https://anyflip.com/homepage/znugq" target="_blank" class="btn-link v-clone1">PDF to Flip</a>
+        <a href="https://www.flipbookpdf.net/" target="_blank" class="btn-link b-rock">Flip Book</a>
+        <a href="https://archive.org/upload" target="_blank" class="btn-link a-enhance">Archive </a>
         <a href="https://webservice.online-convert.com/convert-for-whatsapp" target="_blank" class="btn-link wa-format">WhatsApp Video Format</a>
     </div>
 
     <div class="footer-shm">
-        ডিজিটাল প্রযুক্তি আপনার হাতের মুঠোয়
+        ডিজিটাল প্রযুক্তি আপনার হাতের মুঠোয়
     </div>
 </div>
