@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Read-Only Notepad</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #333;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 400px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            resize: vertical;
+            box-sizing: border-box;
+            font-family: inherit;
+            background-color: #fcfcfc;
+        }
+        textarea:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+        textarea:disabled {
+            background-color: #f9f9f9;
+            color: #555;
+            cursor: not-allowed;
+        }
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .status {
+            font-size: 12px;
+            color: #999;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Public Protected Notepad</h1>
+    <p>Anyone can view this page. To edit and save changes, click "Unlock to Edit".</p>
+    
+    <textarea id="notepad" placeholder="Loading cloud data..." disabled></textarea>
+    
+    <div class="controls">
+        <button id="authBtn" onclick="toggleEdit()">Unlock to Edit</button>
+        <div id="status" class="status">Loading cloud data...</div>
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+<script>
+    // Replace this config with your actual Firebase project configuration
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+    const noteRef = database.ref('public_note');
+
+    const notepad = document.getElementById('notepad');
+    const status = document.getElementById('status');
+    const authBtn = document.getElementById('authBtn');
+    
+    let isTyping = false;
+    let isAuthorized = false;
+
+    // 1. Fetch real-time text
+    noteRef.on('value', (snapshot) => {
+        if (!isTyping) {
+            notepad.value = snapshot.val() || "";
+            status.textContent = isAuthorized ? "Synced & Editable" : "Viewing Mode (Read-Only)";
+            if(!isAuthorized) notepad.placeholder = "Start typing your notes here...";
+        }
+    });
+
+    // 2. Password verification logic
+    function toggleEdit() {
+        if (!isAuthorized) {
+            const password = prompt("Enter password to edit this notepad:");
+            
+            if (password === "365365") {
+                isAuthorized = true;
+                notepad.disabled = false; // Enable typing
+                authBtn.textContent = "Lock Editing";
+                authBtn.style.backgroundColor = "#dc3545"; // Fixed: Added quotes here
+                status.textContent = "Unlocked. Changes will auto-save.";
+                notepad.focus();
+            } else if (password !== null) {
+                alert("Incorrect password! Access denied.");
+            }
+        } else {
+            // Relock the editor
+            isAuthorized = false;
+            notepad.disabled = true;
+            authBtn.textContent = "Unlock to Edit";
+            authBtn.style.backgroundColor = "#007bff";
+            status.textContent = "Viewing Mode (Read-Only)";
+        }
+    }
+
+    // 3. Save to database when authorized user types
+    let typingTimer;
+    notepad.addEventListener('input', () => {
+        if (!isAuthorized) return;
+        
+        isTyping = true;
+        status.textContent = "Typing...";
+        clearTimeout(typingTimer);
+        
+        typingTimer = setTimeout(() => {
+            noteRef.set(notepad.value)
+                .then(() => {
+                    status.textContent = "Saved to cloud!";
+                    isTyping = false;
+                })
+                .catch((error) => {
+                    status.textContent = "Error saving: " + error.message;
+                    isTyping = false;
+                });
+        }, 500); 
+    });
+</script>
+
+</body>
+</html>
