@@ -44,8 +44,7 @@
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 60px 20px;
-            margin-bottom: 40px;
+            padding: 40px 20px 20px;
             position: relative;
         }
 
@@ -89,6 +88,58 @@
             max-width: 600px;
             margin: 15px auto 0;
             font-weight: 400;
+        }
+
+        /* New Top Link Buttons Bar */
+        .top-links-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin: 20px auto 40px;
+            padding: 0 10px;
+        }
+
+        .top-link-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .top-link-btn i {
+            font-size: 1rem;
+            color: var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .top-link-btn:hover {
+            background: rgba(99, 102, 241, 0.15);
+            border-color: var(--accent-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.25);
+        }
+
+        .top-link-btn:hover i {
+            transform: translateX(3px);
+        }
+
+        @media (max-width: 600px) {
+            .top-links-bar {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
         }
 
         /* Grid System */
@@ -219,7 +270,6 @@
             transform: translateY(-2px);
         }
 
-        /* Social Grid Styles matched uniformly */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -252,7 +302,6 @@
             transform: scale(1.15);
         }
 
-        /* Standardized Platform Branding Styles */
         .social-btn.fb:hover { 
             background: #1877f2; 
             border-color: #1877f2; 
@@ -270,7 +319,7 @@
             border-color: #222222; 
             box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
         }
-        
+
         .social-btn span {
             font-weight: 600;
         }
@@ -306,6 +355,22 @@
             <h1>SADIKUL HAQUE MOLLA</h1>
             <p class="tagline">"সাহিত্যের পাতায় হারিয়ে যাওয়া আর প্রযুক্তির নতুন দিগন্ত খোঁজা - এই দুইয়ের মাঝেই আমার জগৎ।" 📚💻</p>
         </header>
+
+        <!-- New: 3 Top Link Buttons Section -->
+        <div class="top-links-bar">
+            <a href="#" class="top-link-btn">
+                <span>Link 1</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href="#" class="top-link-btn">
+                <span>Link 2</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+            <a href="#" class="top-link-btn">
+                <span>Link 3</span>
+                <i class="fa-solid fa-arrow-right-long"></i>
+            </a>
+        </div>
 
         <!-- Main Dashboard Layout -->
         <main class="grid">
@@ -379,7 +444,7 @@
                         </div>
                     </a>
 
-                    <!-- Social Network Grid with Uniform High-Quality Styling -->
+                    <!-- Social Network Grid -->
                     <div class="social-grid">
                         <a href="https://www.facebook.com/sadikulblog" target="_blank" class="social-btn fb">
                             <i class="fa-brands fa-facebook-f"></i>
@@ -412,7 +477,7 @@
         </main>
 
         <footer>
-            <p>This is my Personal website</p>
+            <p>&copy; 2026 Sadikul Haque Molla. All Rights Reserved.</p>
         </footer>
 
     </div>
