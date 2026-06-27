@@ -115,34 +115,18 @@
     const status = document.getElementById('status');
     const authBtn = document.getElementById('authBtn');
     
-    let isTyping = false;
     let isAuthorized = false;
-    let typingTimer;
 
-    // 1. Fetch real-time text
+    // 1. Fetch real-time text from cloud (Runs constantly for public readers)
     noteRef.on('value', (snapshot) => {
-        if (!isTyping) {
+        // Only update the textbox if the current user isn't actively editing it
+        if (document.activeElement !== notepad) {
             notepad.value = snapshot.val() || "";
             status.textContent = isAuthorized ? "Synced & Editable" : "Viewing Mode (Read-Only)";
-            if(!isAuthorized) notepad.placeholder = "Start typing your notes here...";
         }
     });
 
-    // Helper function to force an immediate save to the database
-    function forceSaveImmediate() {
-        clearTimeout(typingTimer);
-        return noteRef.set(notepad.value)
-            .then(() => {
-                status.textContent = "All changes saved!";
-                isTyping = false;
-            })
-            .catch((error) => {
-                status.textContent = "Error saving: " + error.message;
-                isTyping = false;
-            });
-    }
-
-    // 2. Password verification & Locking logic
+    // 2. Password verification & Quick Toggle
     function toggleEdit() {
         if (!isAuthorized) {
             const password = prompt("Enter password to edit this notepad:");
@@ -152,44 +136,34 @@
                 notepad.disabled = false; 
                 authBtn.textContent = "Lock Editing";
                 authBtn.style.backgroundColor = "#dc3545"; 
-                status.textContent = "Unlocked. Changes will auto-save.";
+                status.textContent = "Unlocked. Content autosaves instantly.";
                 notepad.focus();
             } else if (password !== null) {
                 alert("Incorrect password! Access denied.");
             }
         } else {
-            // FIX: Force save the current text immediately BEFORE removing authorization status
-            status.textContent = "Finalizing save...";
-            forceSaveImmediate().then(() => {
-                // Now safely lock down the editor
-                isAuthorized = false;
-                notepad.disabled = true;
-                authBtn.textContent = "Unlock to Edit";
-                authBtn.style.backgroundColor = "#007bff";
-                status.textContent = "Viewing Mode (Read-Only)";
-            });
+            // Relock immediately. Everything is already saved on keypress anyway!
+            isAuthorized = false;
+            notepad.disabled = true;
+            authBtn.textContent = "Unlock to Edit";
+            authBtn.style.backgroundColor = "#007bff";
+            status.textContent = "Viewing Mode (Read-Only)";
         }
     }
 
-    // 3. Auto-save while typing (as normal)
+    // 3. Instant Cloud Save on Keypress
     notepad.addEventListener('input', () => {
         if (!isAuthorized) return;
         
-        isTyping = true;
-        status.textContent = "Typing...";
-        clearTimeout(typingTimer);
+        status.textContent = "Saving to cloud...";
         
-        typingTimer = setTimeout(() => {
-            noteRef.set(notepad.value)
-                .then(() => {
-                    status.textContent = "Saved to cloud!";
-                    isTyping = false;
-                })
-                .catch((error) => {
-                    status.textContent = "Error saving: " + error.message;
-                    isTyping = false;
-                });
-        }, 500); 
+        noteRef.set(notepad.value)
+            .then(() => {
+                status.textContent = "Saved!";
+            })
+            .catch((error) => {
+                status.textContent = "Cloud write error: " + error.message;
+            });
     });
 </script>
 
