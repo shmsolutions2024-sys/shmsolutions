@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Read-Only Notepad</title>
+    <title>পাবলিক সুরক্ষিত নোটপ্যাড</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -79,14 +79,14 @@
 <body>
 
 <div class="container">
-    <h1>Public Protected Notepad</h1>
-    <p>Anyone can view this page. To edit and save changes, click "Unlock to Edit".</p>
+    <h1>পাবলিক প্রটেক্টেড নোটপ্যাড</h1>
+    <p>যে কেউ এই পেজটি দেখতে পাবে। এডিট করার জন্য "Unlock to Edit" বাটনে ক্লিক করুন।</p>
     
-    <textarea id="notepad" placeholder="Loading cloud data..." disabled></textarea>
+    <textarea id="notepad" placeholder="ক্লাউড ডাটা লোড হচ্ছে..." disabled></textarea>
     
     <div class="controls">
         <button id="authBtn" onclick="toggleEdit()">Unlock to Edit</button>
-        <div id="status" class="status">Loading cloud data...</div>
+        <div id="status" class="status">ক্লাউড ডাটা লোড হচ্ছে...</div>
     </div>
 </div>
 
@@ -95,7 +95,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
 <script>
-    // Replace this config with your actual Firebase project configuration
+    // এখানে আপনার আসল Firebase কনফিগারেশন কোডটি বসাবেন
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -106,7 +106,7 @@
         appId: "YOUR_APP_ID"
     };
 
-    // Initialize Firebase
+    // Firebase ইনিশিয়ালাইজ করা
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
     const noteRef = database.ref('public_note');
@@ -117,37 +117,36 @@
     
     let isAuthorized = false;
 
-    // 1. Fetch real-time text from cloud
+    // ১. ক্লাউড থেকে রিয়েল-টাইম লেখা নিয়ে আসা
     noteRef.on('value', (snapshot) => {
-        // FIX: If I am currently authorized/editing, completely block incoming cloud syncs 
-        // so it NEVER overwrites or removes what I have typed on my screen.
+        // সমাধান: আমি নিজে আনলকড থাকলে ক্লাউড থেকে কোনো ডাটা এসে স্ক্রিনের লেখাকে মুছতে পারবে না
         if (!isAuthorized) {
             notepad.value = snapshot.val() || "";
             status.textContent = "Viewing Mode (Read-Only)";
         }
     });
 
-    // 2. Password verification & Strict Locking
+    // ২. পাসওয়ার্ড ভেরিফিকেশন এবং লক করার লজিক
     function toggleEdit() {
         if (!isAuthorized) {
-            const password = prompt("Enter password to edit this notepad:");
+            const password = prompt("এডিট করার জন্য পাসওয়ার্ড দিন:");
             
             if (password === "365365") {
                 isAuthorized = true;
                 notepad.disabled = false; 
                 authBtn.textContent = "Lock Editing";
                 authBtn.style.backgroundColor = "#dc3545"; 
-                status.textContent = "Unlocked. Changes sync instantly.";
+                status.textContent = "unlocked. পরিবর্তনগুলো ক্লাউডে সেভ হচ্ছে।";
                 notepad.focus();
             } else if (password !== null) {
-                alert("Incorrect password! Access denied.");
+                alert("ভুল পাসওয়ার্ড! এক্সেস রিফিউজড।");
             }
         } else {
-            // Force an final manual push of exactly what is on the screen right now
-            status.textContent = "Saving final changes...";
+            // সমাধান: লক করার ঠিক আগের মুহূর্তে স্ক্রিনে যা আছে তা নিশ্চিতভাবে ক্লাউডে সেভ করা
+            status.textContent = "সর্বশেষ পরিবর্তনগুলো সেভ হচ্ছে...";
             noteRef.set(notepad.value)
                 .then(() => {
-                    // Lock down only after ensuring the data is pushed
+                    // সফলভাবে সেভ হওয়ার পরেই কেবল এডিটর লক হবে
                     isAuthorized = false;
                     notepad.disabled = true;
                     authBtn.textContent = "Unlock to Edit";
@@ -155,19 +154,19 @@
                     status.textContent = "Saved & Locked! (Read-Only Mode)";
                 })
                 .catch((error) => {
-                    alert("Error saving final text: " + error.message);
+                    alert("ফাইনাল সেভ করতে সমস্যা হয়েছে: " + error.message);
                 });
         }
     }
 
-    // 3. Live Save on Keypress
+    // ৩. টাইপ করার সাথে সাথে লাইভ সেভ করা
     notepad.addEventListener('input', () => {
         if (!isAuthorized) return;
         
-        status.textContent = "Saving to cloud...";
+        status.textContent = "ক্লাউডে সেভ হচ্ছে...";
         noteRef.set(notepad.value)
             .then(() => {
-                status.textContent = "Changes saved!";
+                status.textContent = "Saved!";
             })
             .catch((error) => {
                 status.textContent = "Sync error: " + error.message;
