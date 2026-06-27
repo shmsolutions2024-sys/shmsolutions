@@ -117,16 +117,17 @@
     
     let isAuthorized = false;
 
-    // 1. Fetch real-time text from cloud (Runs constantly for public readers)
+    // 1. Fetch real-time text from cloud
     noteRef.on('value', (snapshot) => {
-        // Only update the textbox if the current user isn't actively editing it
-        if (document.activeElement !== notepad) {
+        // FIX: If I am currently authorized/editing, completely block incoming cloud syncs 
+        // so it NEVER overwrites or removes what I have typed on my screen.
+        if (!isAuthorized) {
             notepad.value = snapshot.val() || "";
-            status.textContent = isAuthorized ? "Synced & Editable" : "Viewing Mode (Read-Only)";
+            status.textContent = "Viewing Mode (Read-Only)";
         }
     });
 
-    // 2. Password verification & Quick Toggle
+    // 2. Password verification & Strict Locking
     function toggleEdit() {
         if (!isAuthorized) {
             const password = prompt("Enter password to edit this notepad:");
@@ -136,33 +137,40 @@
                 notepad.disabled = false; 
                 authBtn.textContent = "Lock Editing";
                 authBtn.style.backgroundColor = "#dc3545"; 
-                status.textContent = "Unlocked. Content autosaves instantly.";
+                status.textContent = "Unlocked. Changes sync instantly.";
                 notepad.focus();
             } else if (password !== null) {
                 alert("Incorrect password! Access denied.");
             }
         } else {
-            // Relock immediately. Everything is already saved on keypress anyway!
-            isAuthorized = false;
-            notepad.disabled = true;
-            authBtn.textContent = "Unlock to Edit";
-            authBtn.style.backgroundColor = "#007bff";
-            status.textContent = "Viewing Mode (Read-Only)";
+            // Force an final manual push of exactly what is on the screen right now
+            status.textContent = "Saving final changes...";
+            noteRef.set(notepad.value)
+                .then(() => {
+                    // Lock down only after ensuring the data is pushed
+                    isAuthorized = false;
+                    notepad.disabled = true;
+                    authBtn.textContent = "Unlock to Edit";
+                    authBtn.style.backgroundColor = "#007bff";
+                    status.textContent = "Saved & Locked! (Read-Only Mode)";
+                })
+                .catch((error) => {
+                    alert("Error saving final text: " + error.message);
+                });
         }
     }
 
-    // 3. Instant Cloud Save on Keypress
+    // 3. Live Save on Keypress
     notepad.addEventListener('input', () => {
         if (!isAuthorized) return;
         
         status.textContent = "Saving to cloud...";
-        
         noteRef.set(notepad.value)
             .then(() => {
-                status.textContent = "Saved!";
+                status.textContent = "Changes saved!";
             })
             .catch((error) => {
-                status.textContent = "Cloud write error: " + error.message;
+                status.textContent = "Sync error: " + error.message;
             });
     });
 </script>
