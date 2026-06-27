@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Access Panel | SHMsolutions</title>
+    <!-- Google Fonts & FontAwesome for Premium Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Hind+Siliguri:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --accent-glow: #6366f1;
+            --accent-secondary: #a855f7;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Hind Siliguri', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px 40px; /* Top padding for home button space */
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Floating Home Button */
+        .floating-home-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border);
+            border-radius: 30px;
+            color: var(--text-primary) !important;
+            text-decoration: none !important;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-home-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            border-color: var(--accent-glow);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Main Glass Card Wrapper */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 950px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .glass-card h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 35px;
+            background: linear-gradient(to right, #fff, var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .glass-card h2 i {
+            color: var(--accent-glow);
+            font-size: 1.8rem;
+        }
+
+        /* Modern Grid Layout */
+        .link-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            list-style: none;
+        }
+
+        /* Grid Items & Anchors */
+        .link-grid li {
+            width: 100%;
+        }
+
+        .link-grid a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 110px;
+            padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Icons styling inside grid */
+        .link-grid a i {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        /* Hover Effects with Custom Glows */
+        .link-grid a:hover {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: var(--accent-glow);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.2);
+        }
+
+        .link-grid a:hover i {
+            color: var(--accent-glow);
+            transform: scale(1.15);
+        }
+
+        /* Footer inside Panel */
+        .panel-footer {
+            text-align: center;
+            margin-top: 35px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.2);
+            border-top: 1px solid var(--card-border);
+            padding-top: 20px;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 600px) {
+            body { padding-top: 70px; }
+            .floating-home-btn { top: 12px; left: 12px; padding: 8px 14px; font-size: 13px; }
+            .glass-card { padding: 25px 15px; border-radius: 20px; }
+            .glass-card h2 { font-size: 1.6rem; margin-bottom: 25px; }
+            .link-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .link-grid a { min-height: 95px; padding: 15px 10px; font-size: 0.85rem; }
+            .link-grid a i { font-size: 1.5rem; margin-bottom: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Home Button -->
+    <a href="index.html" class="floating-home-btn">
+        <i class="fa-solid fa-house"></i> Home
+    </a>
+
+    <!-- Main Dashboard Card -->
+    <div class="glass-card">
+        <h2><i class="fa-solid fa-circle-nodes"></i> Quick Access</h2>
+        
+        <ul class="link-grid">
+            <li>
+                <a href="https://notebooklm.google.com/" target="_blank">
+                    <i class="fa-solid fa-book-open-reader"></i>
+                    <span>NotebookLM</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://account.proton.me/login" target="_blank">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <span>PROTON.ME</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://od.lk/s/MzZfOTA2NjQ3NTlf/secruedpage.xml" target="_blank">
+                    <i class="fa-solid fa-lock"></i>
+                    <span>Secure Access</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://od.lk/s/MzZfOTI4MzMyNDJf/SHM-gps-Cam.xml" target="_blank">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <span>SHM GPS Cam</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://od.lk/s/MzZfOTI4MzIxMjFf/location%20map.xml" target="_blank">
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <span>Location Search</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://mega.nz/" target="_blank">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <span>M Drive</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://spacebyte.in/" target="_blank">
+                    <i class="fa-solid fa-server"></i>
+                    <span>SpaceByte</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://fiber.google.com/speedtest/" target="_blank">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <span>Wifi Speed Test</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://github.com/" target="_blank">
+                    <i class="fa-brands fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://vercel.com/" target="_blank">
+                    <i class="fa-solid fa-triangle-exclamation" style="transform: rotate(180deg); display: inline-block;"></i>
+                    <span>Vercel</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mitsu.in/" target="_blank">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Domain</span>
+                </a>
+            </li>
+        </ul>
+
+        <div class="panel-footer">
+            Designed by shmwb.online
+        </div>
+    </div>
+
+</body>
+</html>
