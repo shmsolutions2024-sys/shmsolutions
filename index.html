@@ -6,7 +6,7 @@
     <title>Sadikul Haque Molla | Personal Website</title>
     <!-- Google Fonts & FontAwesome for Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
@@ -219,6 +219,7 @@
             transform: translateY(-2px);
         }
 
+        /* Social Grid Styles matched uniformly */
         .social-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -231,24 +232,48 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 15px 10px;
+            border-radius: 14px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
             color: var(--text-primary);
             text-decoration: none;
             font-size: 0.85rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .social-btn i {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             margin-bottom: 8px;
+            transition: transform 0.3s ease;
         }
 
-        .social-btn.fb:hover { background: #1877f2; border-color: #1877f2; }
-        .social-btn.insta:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border-color: #dc2743; }
-        .social-btn.x:hover { background: #000; border-color: #333; }
+        .social-btn:hover i {
+            transform: scale(1.15);
+        }
+
+        /* Standardized Platform Branding Styles */
+        .social-btn.fb:hover { 
+            background: #1877f2; 
+            border-color: #1877f2; 
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.4);
+        }
+        
+        .social-btn.insta:hover { 
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+            border-color: #dc2743; 
+            box-shadow: 0 4px 15px rgba(220, 39, 67, 0.4);
+        }
+        
+        .social-btn.x:hover { 
+            background: #000000; 
+            border-color: #222222; 
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-btn span {
+            font-weight: 600;
+        }
 
         /* Meta Box */
         .meta-box {
@@ -354,22 +379,23 @@
                         </div>
                     </a>
 
-                  <!-- Social Network Grid -->
-<div class="social-grid">
-    <a href="https://www.facebook.com/sadikulblog" target="_blank" class="social-btn fb">
-        <i class="fa-brands fa-facebook-f"></i>
-        <span>Facebook</span>
-    </a>
-    <a href="https://www.instagram.com/sadikulvlog" target="_blank" class="social-btn insta">
-        <i class="fa-brands fa-instagram"></i>
-        <span>Instagram</span>
-    </a>
-    <!-- Updated Ultra-Modern X Logo -->
-    <a href="https://x.com/sadikulblog" target="_blank" class="social-btn x">
-        <i class="fa-brands fa-x-twitter" style="font-weight: 900;"></i>
-        <span>X (Twitter)</span>
-    </a>
-</div>
+                    <!-- Social Network Grid with Uniform High-Quality Styling -->
+                    <div class="social-grid">
+                        <a href="https://www.facebook.com/sadikulblog" target="_blank" class="social-btn fb">
+                            <i class="fa-brands fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <a href="https://www.instagram.com/sadikulvlog" target="_blank" class="social-btn insta">
+                            <i class="fa-brands fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://x.com/sadikulblog" target="_blank" class="social-btn x">
+                            <i class="fa-brands fa-x-twitter"></i>
+                            <span>X</span>
+                        </a>
+                    </div>
+                </section>
+
                 <!-- Personal Info Box -->
                 <section class="card" style="padding: 25px 20px;">
                     <div style="text-align: center; color: var(--accent-secondary); font-size: 1.5rem; margin-bottom: 10px;">
@@ -386,7 +412,7 @@
         </main>
 
         <footer>
-            <p>This is my Personal Website</p>
+            <p>&copy; 2026 Sadikul Haque Molla. All Rights Reserved.</p>
         </footer>
 
     </div>
