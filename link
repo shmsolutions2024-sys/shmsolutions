@@ -1,0 +1,126 @@
+<style>
+/* Blogger compatibility */
+#main-wrapper, .main-inner, .column-center-inner, .post-body {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.weblink-container {
+    width: 100%;
+    font-family: 'Noto Sans Bengali', sans-serif;
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding-bottom: 40px;
+}
+
+/* Header */
+.weblink-header {
+    background: linear-gradient(135deg, #004d40, #00695c);
+    color: white;
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.weblink-header h1 { font-size: 26px; margin: 0; }
+.weblink-header p { font-size: 15px; opacity: 0.9; margin-top: 10px; }
+
+/* Grid Layout */
+.link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+    padding: 0 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Button Styles */
+.btn-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 80px;
+    padding: 10px;
+    border-radius: 12px;
+    text-decoration: none !important;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: white !important;
+}
+
+.btn-link:active { transform: scale(0.95); }
+
+/* Individual Colors and Styles */
+.v-clone1 { background: linear-gradient(45deg, #f44336, #ff5252); border-bottom: 4px solid #b71c1c; }
+.v-clone2 { background: linear-gradient(45deg, #9c27b0, #ba68c8); border-radius: 30px; }
+.v-editor { background: linear-gradient(45deg, #2196f3, #4fc3f7); border-left: 5px solid #0d47a1; }
+.v-gif { background: linear-gradient(45deg, #ff9800, #ffb74d); box-shadow: 0 4px 15px rgba(255,152,0,0.3); }
+.t-gif { background: linear-gradient(45deg, #4caf50, #81c784); border: 2px solid #1b5e20; }
+.g-maker { background: #3f51b5; clip-path: polygon(0% 0%, 100% 0%, 95% 100%, 5% 100%); }
+.h-raja { background: #009688; border-radius: 0 15px 0 15px; }
+.b-rock { background: #607d8b; border-bottom: 5px solid #263238; }
+.a-builder { background: #e91e63; border-radius: 20px 5px; }
+.a-maker { background: #333333; font-style: italic; }
+.s-app { background: linear-gradient(to right, #6a11cb, #2575fc); font-size: 16px; }
+.pdf-c { background: #ff5722; border: 2px dashed white; }
+.f-zone { background: #795548; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+.a-enhance { background: #000; border: 1px solid #00ffcc; color: #00ffcc !important; }
+.mp3-conv { background: #673ab7; border-radius: 50px; }
+.file-conv { background: #00bcd4; font-family: cursive; }
+.wa-format { background: #25d366; grid-column: 1 / -1; height: 60px; }
+
+/* Footer */
+.footer-shm {
+    text-align: center;
+    padding: 30px 20px;
+    color: #555;
+    font-size: 14px;
+}
+
+@media (max-width: 400px) {
+    .link-grid { grid-template-columns: repeat(2, 1fr); }
+    .btn-link { font-size: 13px; height: 70px; }
+}
+</style>
+
+<div class="weblink-container">
+    <div class="weblink-header">
+        <h1>🔗 Useful Weblinks</h1>
+        <p>ডিজিটাল প্রযুক্তি হোক সঙ্গী, সহজ হোক আগামীর পথ 🚀</p>
+    </div>
+
+    <div class="link-grid">
+        <a href="https://www.minimax.io/audio" target="_blank" class="btn-link v-clone1">Voice Clone 1</a>
+        <a href="https://huggingface.co/spaces/mrfakename/E2-F5-TTS" target="_blank" class="btn-link v-clone2">Voice Clone 2</a>
+        <a href="https://123apps.com/" target="_blank" class="btn-link v-editor">123 Video Editor</a>
+        <a href="https://www.3dgifmaker.com/" target="_blank" class="btn-link v-gif">3D GIF MAKER</a>
+        <a href="https://www.bloggif.com/text" target="_blank" class="btn-link t-gif">Text to GIF</a>
+        <a href="https://www.textstudio.com/" target="_blank" class="btn-link g-maker">GIF Maker</a>
+        <a href="https://www.hostingraja.in" target="_blank" class="btn-link h-raja">Hosting Raja</a>
+        <a href="https://www.bigrock.in" target="_blank" class="btn-link b-rock">Big Rock</a>
+        <a href="https://appinventor.mit.edu/" target="_blank" class="btn-link a-builder">App Builder</a>
+        <a href="https://median.co/app" target="_blank" class="btn-link a-maker">App Maker</a>
+        <a href="https://toffeesha.re/c/NgktmkisQj" target="_blank" class="btn-link s-app">SHMsolutions App</a>
+        <a href="https://www.pdfgear.com/" target="_blank" class="btn-link pdf-c">PDF Compressor</a>
+        <a href="http://fontzone.net" target="_blank" class="btn-link f-zone">Font Zone</a>
+        <a href="https://podcast.adobe.com/en/enhance" target="_blank" class="btn-link a-enhance">Audio Enhance</a>
+        <a href="https://cloudconvert.com/mp3-converter" target="_blank" class="btn-link mp3-conv">MP3 Converter</a>
+        <a href="https://cloudconvert.com/" target="_blank" class="btn-link file-conv">File Converter</a>
+     	<a href="https://freeimage.host/" target="_blank" class="btn-link file-conv">Image Hosting</a>
+      	<a href="https://image.pi7.org/" target="_blank" class="btn-link h-raja">Img & PDF Compressor</a>
+         <a href="https://squoosh.app/" target="_blank" class="btn-link pdf-c">WebP</a>
+       <a href="https://freebanglaconverter.com/" target="_blank" class="btn-link v-clone2">Unicode to Bijay</a>
+      <a href="https://anyflip.com/homepage/znugq" target="_blank" class="btn-link v-clone1">PDF to Flip</a>
+      <a href="https://www.flipbookpdf.net/" target="_blank" class="btn-link b-rock">Flip Book</a>
+      <a href="https://archive.org/upload" target="_blank" class="btn-link a-enhance">Archive </a>
+        <a href="https://webservice.online-convert.com/convert-for-whatsapp" target="_blank" class="btn-link wa-format">WhatsApp Video Format</a>
+    </div>
+
+    <div class="footer-shm">
+        ডিজিটাল প্রযুক্তি আপনার হাতের মুঠোয়
+    </div>
+</div>
