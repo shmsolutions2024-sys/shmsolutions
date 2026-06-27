@@ -117,6 +117,7 @@
     
     let isTyping = false;
     let isAuthorized = false;
+    let typingTimer;
 
     // 1. Fetch real-time text
     noteRef.on('value', (snapshot) => {
@@ -127,33 +128,50 @@
         }
     });
 
-    // 2. Password verification logic
+    // Helper function to force an immediate save to the database
+    function forceSaveImmediate() {
+        clearTimeout(typingTimer);
+        return noteRef.set(notepad.value)
+            .then(() => {
+                status.textContent = "All changes saved!";
+                isTyping = false;
+            })
+            .catch((error) => {
+                status.textContent = "Error saving: " + error.message;
+                isTyping = false;
+            });
+    }
+
+    // 2. Password verification & Locking logic
     function toggleEdit() {
         if (!isAuthorized) {
             const password = prompt("Enter password to edit this notepad:");
             
             if (password === "365365") {
                 isAuthorized = true;
-                notepad.disabled = false; // Enable typing
+                notepad.disabled = false; 
                 authBtn.textContent = "Lock Editing";
-                authBtn.style.backgroundColor = "#dc3545"; // Fixed: Added quotes here
+                authBtn.style.backgroundColor = "#dc3545"; 
                 status.textContent = "Unlocked. Changes will auto-save.";
                 notepad.focus();
             } else if (password !== null) {
                 alert("Incorrect password! Access denied.");
             }
         } else {
-            // Relock the editor
-            isAuthorized = false;
-            notepad.disabled = true;
-            authBtn.textContent = "Unlock to Edit";
-            authBtn.style.backgroundColor = "#007bff";
-            status.textContent = "Viewing Mode (Read-Only)";
+            // FIX: Force save the current text immediately BEFORE removing authorization status
+            status.textContent = "Finalizing save...";
+            forceSaveImmediate().then(() => {
+                // Now safely lock down the editor
+                isAuthorized = false;
+                notepad.disabled = true;
+                authBtn.textContent = "Unlock to Edit";
+                authBtn.style.backgroundColor = "#007bff";
+                status.textContent = "Viewing Mode (Read-Only)";
+            });
         }
     }
 
-    // 3. Save to database when authorized user types
-    let typingTimer;
+    // 3. Auto-save while typing (as normal)
     notepad.addEventListener('input', () => {
         if (!isAuthorized) return;
         
