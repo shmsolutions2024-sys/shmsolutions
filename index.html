@@ -343,6 +343,12 @@
         }
     </style>
 </head>
+    <div id="fb-root"></div>
+<script async defer crossorigin="anonymous" 
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0" 
+        nonce="YOUR_NONCE_VALUE">
+</script>
+
 <body>
 
     <div class="container">
@@ -358,11 +364,7 @@
 
         <!-- New: 3 Top Link Buttons Section -->
         <div class="top-links-bar">
-            <a href="#" class="top-link-btn">
-                <span>Home</span>
-                <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-            <a href="myspace.html" class="top-link-btn">
+                <a href="myspace.html" class="top-link-btn">
                 <span>My Space</span>
                 <i class="fa-solid fa-arrow-right-long"></i>
             </a>
@@ -471,8 +473,58 @@
                         <i class="fa-solid fa-heart"></i>
                     </div>
                     <div class="meta-box" style="border: none; padding: 0; margin: 0;">
-                        <p style="color: #fff; font-weight: 600;">বৈবাহিক স্থিতি</p>
-                        <p style="font-size: 0.9rem; margin-top: 4px;">২৩ সেপ্টেম্বর ২০১৩ থেকে দাম্পত্য জীবনে আবদ্ধ</p>
+                        <!-- ফেসবুক চওড়া ভাসমান উইজেট স্টার্ট -->
+<div class="shm-premium-fb-box">
+    <!-- ফেসবুক পেজের চমত্কার শিরোনাম -->
+    <div class="fb-premium-title">ফেসবুক পেজ</div>
+    
+    <!-- ফেসবুক প্লাগইন কোড (সর্বোচ্চ ৫০০ পিক্সেল চওড়া করা হয়েছে) -->
+    <div class="fb-page" 
+         data-href="https://www.facebook.com/sadikulblog" 
+         data-tabs="timeline" 
+         data-width="500" 
+         data-height="550" 
+         data-small-header="false" 
+         data-adapt-container-width="true" 
+         data-hide-cover="false" 
+         data-show-facepile="true">
+    </div>
+</div>
+
+<!-- image_f9fc6.png এর মতো প্রফেশনাল লুক দেওয়ার জন্য CSS -->
+<style>
+.shm-premium-fb-box {
+    position: fixed;
+    bottom: 25px; /* স্ক্রিনের নিচ থেকে দূরত্ব */
+    right: 25px;  /* স্ক্রিনের ডানদিক থেকে দূরত্ব */
+    z-index: 99999;
+    background: #ffffff;
+    padding: 15px; /* ভেতরের স্পেস বাড়ানো হয়েছে */
+    border-radius: 20px; /* কর্নারগুলো আরও সুন্দর গোল করার জন্য */
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.12); /* প্রিমিয়াম সফট শ্যাডো */
+    border: 1px solid #eaeaea;
+    width: 100%;
+    max-width: 530px; /* বক্সের মূল চওড়া সাইজ */
+    box-sizing: border-box;
+}
+
+.fb-premium-title {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e4405f;
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+/* ফেসবুকের ভেতরের এলিমেন্ট যেন বর্ডারের সাথে নিখুঁতভাবে বসে */
+.shm-premium-fb-box iframe {
+    border-radius: 12px !important;
+    width: 100% !important;
+}
+</style>
+<!-- ফেসবুক চওড়া ভাসমান উইজেট এন্ড -->
                     </div>
                 </section>
 
