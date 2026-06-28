@@ -145,7 +145,7 @@
         /* Grid System */
         .grid {
             display: grid;
-            grid-template-columns: 1.8fr 1.2fr; /* ফেসবুক পেজের জন্য ডানদিকের কলাম একটু চওড়া করা হলো */
+            grid-template-columns: 1.8fr 1.2fr;
             gap: 30px;
         }
 
@@ -324,14 +324,18 @@
             font-weight: 600;
         }
 
-        /* কাস্টম প্রিমিয়াম ফেসবুক উইজেট স্টাইল (image_f93fc6.png এর মতো সুন্দর করার জন্য) */
+        /* প্রিমিয়াম ফেসবুক পেজ কার্ড সিএসএস ফিক্স */
         .shm-premium-fb-card {
-            background: #ffffff !important; /* সম্পূর্ণ সাদা ব্যাকগ্রাউন্ড */
+            background: #ffffff !important; 
             border: none !important;
             border-radius: 20px;
             padding: 20px !important;
             box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.25);
+            
+            /* লুপ বাগ ফিক্স করার জন্য প্রোপার্টি */
             overflow: hidden;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
         }
 
         .fb-premium-title {
@@ -344,7 +348,7 @@
         }
         
         .fb-premium-title span {
-            color: #e4405f; /* 'পেজ' অংশটি লালচে টোনে */
+            color: #e4405f; 
         }
 
         .shm-premium-fb-card iframe {
@@ -363,7 +367,7 @@
 </head>
 <body>
 
-    <!-- ফেসবুক SDK লোডার -->
+    <!-- ফেসবুক SDK (বডির একদম শুরুতে রাখা হয়েছে) -->
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous" 
             src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v15.0" 
@@ -381,7 +385,7 @@
             <p class="tagline">"সাহিত্যের পাতায় হারিয়ে যাওয়া আর প্রযুক্তির নতুন দিগন্ত খোঁজা - এই দুইয়ের মাঝেই আমার জগৎ।" 📚💻</p>
         </header>
 
-        <!-- 3 Top Link Buttons Section -->
+        <!-- Top Link Buttons Section -->
         <div class="top-links-bar">
             <a href="myspace.html" class="top-link-btn">
                 <span>My Space</span>
@@ -486,7 +490,7 @@
                     </div>
                 </section>
 
-                <!-- image_f93fc6.png এর মত চওড়া ও আকর্ষণীয় ফেসবুক পেজ কার্ড -->
+                <!-- প্রিমিয়াম চওড়া ফেসবুক পেজ কার্ড (বাগ ফিক্সড) -->
                 <section class="card shm-premium-fb-card">
                     <div class="fb-premium-title">ফেসবুক <span>পেজ</span></div>
                     
@@ -496,7 +500,7 @@
                          data-width="500" 
                          data-height="500" 
                          data-small-header="false" 
-                         data-adapt-container-width="true" 
+                         data-adapt-container-width="false" 
                          data-hide-cover="false" 
                          data-show-facepile="true">
                     </div>
